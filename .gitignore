@@ -9,3 +9,6 @@ keystore.properties
 captures/
 .externalNativeBuild/
 .cxx/
+
+# build logs
+*.log

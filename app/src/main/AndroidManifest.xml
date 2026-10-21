@@ -3,6 +3,7 @@
 
     <application
         android:label="Zevenen"
+        android:icon="@mipmap/ic_launcher"
         android:theme="@style/Theme.Zevenen"
         android:supportsRtl="true">
 
@@ -14,6 +15,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.zevenen.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

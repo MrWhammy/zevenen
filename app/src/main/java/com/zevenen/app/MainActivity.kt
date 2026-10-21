@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zevenen.app.game.Phase
 import com.zevenen.app.ui.PredictScreen
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
 fun AppRoot() {
     val vm: GameViewModel = viewModel()
     val state = vm.state
+    val context = LocalContext.current
     var showScoreboard by remember { mutableStateOf(false) }
 
     if (state == null) {
@@ -69,7 +71,12 @@ fun AppRoot() {
                     onShowScoreboard = { showScoreboard = true },
                 )
                 Phase.Summary -> SummaryScreen(state = state, onNext = vm::nextRound, onNewGame = vm::newGame)
-                Phase.Finished -> SummaryScreen(state = state, onNext = {}, onNewGame = vm::newGame)
+                Phase.Finished -> SummaryScreen(
+                    state = state,
+                    onNext = {},
+                    onNewGame = vm::newGame,
+                    onShare = { image, text -> shareScores(context, image, text) },
+                )
             }
         }
     }

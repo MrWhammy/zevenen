@@ -113,24 +113,29 @@ fun SetupScreen(onStart: (players: List<String>, rules: GameRules) -> Unit) {
             isError = !roundsValid,
             singleLine = true,
         )
+        val maxLabel = maxCards?.toString() ?: "max"
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterChip(
                 selected = !upFirst,
                 onClick = { upFirst = false },
-                label = { Text("$maxCards → 1 → $maxCards") },
+                label = { Text("$maxLabel → 1 → $maxLabel") },
             )
             FilterChip(
                 selected = upFirst,
                 onClick = { upFirst = true },
-                label = { Text("1 → $maxCards → 1") },
+                label = { Text("1 → $maxLabel → 1") },
             )
         }
         SwitchRow(
             text = "Repeat the turning round",
             checked = repeatMiddle,
             onCheckedChange = { repeatMiddle = it },
-            supporting = if (upFirst) "… ${maxCardsNr(maxCards, -1)}, $maxCards, $maxCards, ${maxCardsNr(maxCards, -1)} …"
-            else "… 2, 1, 1, 2 …",
+            supporting = when {
+                upFirst && (maxCards ?: 0) >= 2 ->
+                    "… ${maxCards!! - 1}, $maxCards, $maxCards, ${maxCards - 1} …"
+                upFirst -> "the turning round is dealt twice in a row"
+                else -> "… 2, 1, 1, 2 …"
+            },
         )
         SwitchRow(
             text = "Final round with 1 card",
@@ -207,9 +212,6 @@ fun SetupScreen(onStart: (players: List<String>, rules: GameRules) -> Unit) {
         Spacer(Modifier.height(32.dp))
     }
 }
-
-private fun maxCardsNr(maxCards: Int?, offset: Int): String =
-    ((maxCards ?: 7) + offset).coerceAtLeast(1).toString()
 
 @Composable
 private fun SwitchRow(
