@@ -46,8 +46,20 @@ app/src/main/java/com/zevenen/app/
 ├── MainActivity.kt          # screen wiring (setup / predict / tricks / summary)
 ├── GameViewModel.kt        # state holder + persistence
 ├── game/
-│   ├── GameRules.kt        # pattern parsing, round scoring
+│   ├── GameRules.kt        # round structure and scoring
 │   └── GameState.kt        # immutable game state machine
 └── ui/                     # Compose screens (setup, prediction, tricks, summary)
 app/src/test/               # JUnit tests for the game logic
 ```
+
+## License
+
+This project is released under the [MIT License](LICENSE).
+
+## AI disclosure
+
+This codebase was developed with the assistance of AI coding tools
+(Mistral Vibe). All code was reviewed, tested and shaped by the maintainer,
+who is responsible for it — but reviewers and contributors should be aware
+of its AI-assisted origin.
+
